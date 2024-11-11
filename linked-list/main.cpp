@@ -104,6 +104,59 @@ public:
     head = head->next;
     delete temp; // frees  up memory of original head.
   }
+
+  // deleting last node
+
+  void deleteLastNode()
+  {
+    // check of head is null pointer - list doesnt exist
+    if (head == nullptr)
+    {
+      cout << " List is empty!" << endl;
+      return;
+    }
+    // check if head next is null pointer - there is only one node
+    if (head->next == nullptr)
+    {
+      head = nullptr;
+      return;
+    }
+    // traverse to second to last node
+    Node *temp = head;
+    while (temp->next->next != nullptr)
+    {
+      temp = temp->next;
+    }
+    delete temp->next;
+    temp->next = nullptr;
+  }
+
+  // delete intermediate node
+  void deleteIntermediate(int pos)
+  {
+    // first node
+    if (pos == 0)
+    {
+      deleteFirstNode();
+      return;
+    }
+
+    // check for out of bound position
+    Node *temp = head;
+    for (int i = 0; i < pos - 1 && temp->next != nullptr; i++)
+    {
+      temp = temp->next;
+    }
+    if (temp->next == nullptr)
+    {
+      cout << "Position out of bounds!" << endl;
+      return;
+    }
+    Node *nodeToDelete = temp->next;
+    temp->next = temp->next->next;
+    delete nodeToDelete;
+  }
+
   // display list
   void display()
   {
@@ -128,7 +181,8 @@ int main()
   ll.insertAtPos(27, 2);
 
   ll.display();
-  ll.deleteFirstNode();
+  // ll.deleteFirstNode();
+  ll.deleteIntermediate(2);
   ll.display();
   return 0;
 }
